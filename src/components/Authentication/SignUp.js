@@ -7,7 +7,11 @@ import {
   InputRightElement,
   VStack,
 } from "@chakra-ui/react";
+import axios from "axios";
 import React, { useState } from "react";
+import { DB } from "../../constant";
+import { toast } from "react-toastify";
+import { useNavigate } from "react-router-dom";
 
 const SignUp = () => {
   const [name, setName] = useState();
@@ -16,28 +20,84 @@ const SignUp = () => {
   const [confirmPassword, setConfirmPassword] = useState();
   const [pic, setPic] = useState();
   const [show, setShow] = useState(false);
+  const [loading, setLoading] = useState(false);
 
-  const postDetails = () => {};
-  const submitHandler = () => {};
+  const navigate = useNavigate();
+
+  const postDetails = (pics) => {
+    setLoading(true);
+    if (!pics) {
+      toast.warn("Please select a picture");
+      setLoading(false);
+      return;
+    }
+    if (pics.type === "image/jpeg" || pics.type === "image/png") {
+      const data = new FormData();
+      data.append("file", pics);
+      data.append("upload_preset", "chat-app");
+      data.append("cloud_name", "apurba286");
+
+      fetch("https://api.cloudinary.com/v1_1/apurba286/image/upload", {
+        method: "post",
+        body: data,
+      })
+        .then((res) => res.json()) // Corrected line
+        .then((data) => {
+          console.log(data.url.toString());
+          setPic(data.url.toString());
+          setLoading(false);
+        })
+        .catch((err) => {
+          console.log(err);
+          setLoading(false);
+        });
+    } else {
+      toast.warn("Please select a picture");
+      setLoading(false);
+      return;
+    }
+  };
+
+  const submitHandler = async () => {
+    try {
+      const { data } = await axios.post(`${DB}/user`, {
+        name: name,
+        email: email,
+        password: password,
+        pic: pic,
+      });
+      if (data.success) {
+        console.log(data.user);
+        toast.success(data.message);
+        localStorage.setItem("token", data.token);
+        navigate("/chats");
+      } else {
+        toast.error(data.message);
+      }
+    } catch (error) {
+      console.log(error);
+    }
+  };
 
   return (
     <>
       <VStack spacing="5px">
-        <FormControl id="first-name" isRequired>
+        <FormControl id="name" isRequired>
           <FormLabel>Name</FormLabel>
           <Input
             placeholder="Enter your name"
             onChange={(e) => setName(e.target.value)}
           />
         </FormControl>
-        <FormControl id="email" isRequired>
+        <FormControl id="Email" isRequired>
           <FormLabel>Email</FormLabel>
           <Input
+            type="email"
             placeholder="Enter your email"
             onChange={(e) => setEmail(e.target.value)}
           />
         </FormControl>
-        <FormControl id="password" isRequired>
+        <FormControl id="Password" isRequired>
           <FormLabel>Password</FormLabel>
           <InputGroup>
             <Input
@@ -58,7 +118,7 @@ const SignUp = () => {
             type="file"
             p={1.5}
             accept="image/*"
-            placeholder="Enter your email"
+            placeholder="Enter your pic"
             onChange={(e) => postDetails(e.target.files[0])}
           />
         </FormControl>
@@ -67,6 +127,7 @@ const SignUp = () => {
           width="100%"
           style={{ marginTop: 15 }}
           onClick={submitHandler}
+          isLoading={loading}
         >
           Sign Up
         </Button>
