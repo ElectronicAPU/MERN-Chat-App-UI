@@ -67,9 +67,10 @@ const SignUp = () => {
         pic: pic,
       });
       if (data.success) {
-        console.log(data.user);
+        // console.log(data);
         toast.success(data.message);
-        localStorage.setItem("token", data.token);
+        localStorage.setItem("token", JSON.stringify(data.token));
+        localStorage.setItem("user", JSON.stringify(data.user));
         navigate("/chats");
       } else {
         toast.error(data.message);

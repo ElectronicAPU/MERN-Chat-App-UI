@@ -22,22 +22,20 @@ const Login = () => {
 
   const submitHandler = async () => {
     console.log("hello");
-    const token = localStorage.getItem("token");
-    console.log(token);
     try {
-      if (token) {
-        const { data } = await axios.post(`${DB}/user/login`, {
-          email,
-          password,
-        });
+      const { data } = await axios.post(`${DB}/user/login`, {
+        email,
+        password,
+      });
 
-        if (data.success) {
-          toast.success(data.message);
-          navigate("/chats");
-          console.log(data);
-        } else {
-          console.log("Something went wrong");
-        }
+      if (data.success) {
+        toast.success(data.message);
+        // console.log(data.user);
+        localStorage.setItem("token", JSON.stringify(data.token));
+        localStorage.setItem("user", JSON.stringify(data.user));
+        navigate("/chats");
+      } else {
+        console.log("Something went wrong");
       }
     } catch (error) {
       console.log(error);
