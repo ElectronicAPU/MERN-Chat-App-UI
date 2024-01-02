@@ -13,7 +13,6 @@ const ChatPage = () => {
       <div style={{ width: "100%" }}>
         {token && <SideDrawer />}
         <Box
-          backgroundColor="red"
           display="flex"
           justifyContent="space-between"
           w="100%"

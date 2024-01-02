@@ -6,12 +6,18 @@ const AppContext = createContext();
 export const AppContextWrapper = ({ children }) => {
   const [token, setToken] = useState();
   const [user, setUser] = useState();
+  const [selectedChat, setSelectedChat] = useState();
+  const [chats, setChats] = useState([]);
 
   let sharedState = {
     token,
     setToken,
     user,
     setUser,
+    selectedChat,
+    setSelectedChat,
+    chats,
+    setChats,
   };
 
   return (

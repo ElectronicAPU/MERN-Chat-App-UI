@@ -16,6 +16,7 @@ import {
   MenuDivider,
   MenuItem,
   MenuList,
+  Spinner,
   Text,
   Tooltip,
   useDisclosure,
@@ -37,7 +38,8 @@ const SideDrawer = () => {
   const [loading, setLoading] = useState(false);
   const [lodingChat, setLoadingChat] = useState();
   const { isOpen, onOpen, onClose } = useDisclosure();
-  const { user, token } = useAppContext();
+  const { user, token, selectedChat, setSelectedChat, chats, setChats } =
+    useAppContext();
 
   const btnRef = React.useRef();
   const navigate = useNavigate();
@@ -77,10 +79,33 @@ const SideDrawer = () => {
     }
   };
 
+  const accessChat = async (userId) => {
+    console.log("userId", userId);
+    try {
+      setLoadingChat(true);
+      const config = {
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${token}`,
+        },
+      };
 
-  const accessChat = (userId) => {
-    
-  }
+      const { data } = await axios.post(`${DB}/chat`, { userId }, config);
+      // console.log(data);
+
+      if (!chats.find((e) => e._id === data._id)) {
+        setChats([data, ...chats]);
+      }
+
+      setSelectedChat(data);
+      setLoadingChat(false);
+      onClose();
+    } catch (error) {
+      toast.error(error.message);
+      setLoadingChat(false);
+      console.log(error);
+    }
+  };
   return (
     <>
       <Box
@@ -161,18 +186,13 @@ const SideDrawer = () => {
               searchResult.map((user) => (
                 <UserListItem
                   key={user._id}
+                  user={user}
                   handleFunction={() => accessChat(user._id)}
                 />
               ))
             )}
+            {lodingChat && <Spinner ml="auto" display="flex" />}
           </DrawerBody>
-
-          <DrawerFooter>
-            <Button variant="outline" mr={3} onClick={onClose}>
-              Cancel
-            </Button>
-            <Button colorScheme="blue">Save</Button>
-          </DrawerFooter>
         </DrawerContent>
       </Drawer>
     </>
