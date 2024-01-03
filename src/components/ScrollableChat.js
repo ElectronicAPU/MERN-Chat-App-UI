@@ -6,7 +6,6 @@ import { Avatar, Tooltip } from "@chakra-ui/react";
 
 const ScrollableChat = ({ message }) => {
   const { user } = useAppContext();
-  console.log(message);
 
   return (
     <>

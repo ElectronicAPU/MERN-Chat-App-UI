@@ -12,9 +12,7 @@ import GroupChatModal from "./miscellaneous/GroupChatModal";
 const MyChats = ({ fetchAgain }) => {
   const {
     token,
-    setToken,
     user,
-    setUser,
     selectedChat,
     setSelectedChat,
     chats,
@@ -106,12 +104,22 @@ const MyChats = ({ fetchAgain }) => {
                       ? getSender(loggedUser, chat.users)
                       : chat.chatName}
                   </Text>
-                  {chat.latestMessage && chat.latestMessage.sender && (
+                  {chat.latestMessage && chat.latestMessage.length > 0 && (
                     <Text fontSize="xs">
-                      <b>{chat.latestMessage.sender.name} : </b>
-                      {chat.latestMessage.content.length > 50
-                        ? chat.latestMessage.content.substring(0, 51) + "..."
-                        : chat.latestMessage.content}
+                      <b>
+                        {
+                          chat.latestMessage[chat.latestMessage.length - 1]
+                            .sender.name
+                        }{" "}
+                        :{" "}
+                      </b>
+                      {chat.latestMessage[chat.latestMessage.length - 1].content
+                        .length > 50
+                        ? chat.latestMessage[
+                            chat.latestMessage.length - 1
+                          ].content.substring(0, 51) + "..."
+                        : chat.latestMessage[chat.latestMessage.length - 1]
+                            .content}
                     </Text>
                   )}
                 </Box>
