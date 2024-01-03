@@ -7,6 +7,7 @@ import ChatBox from "../components/ChatBox";
 
 const ChatPage = () => {
   const { token } = useAppContext();
+  const [fetchAgain, setFetchAgain] = useState(false);
 
   return (
     <>
@@ -19,8 +20,8 @@ const ChatPage = () => {
           h="91.5vh"
           p="10px"
         >
-          {token && <MyChats />}
-          {token && <ChatBox />}
+          {token && <MyChats fetchAgain={fetchAgain} />}
+          {token && <ChatBox fetchAgain={fetchAgain} setFetchAgain={setFetchAgain} />}
         </Box>
       </div>
     </>

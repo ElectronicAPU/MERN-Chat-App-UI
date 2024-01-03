@@ -23,7 +23,7 @@ import { DB } from "../../constant";
 import { toast } from "react-toastify";
 import UserListItem from "../UserAvatar/UserListItem";
 
-const UpdateGroupChatModal = ({ fetchAgain, setFetchAgain }) => {
+const UpdateGroupChatModal = ({ fetchAgain, setFetchAgain, fetchMessages }) => {
   const { isOpen, onOpen, onClose } = useDisclosure();
 
   const [groupChatName, setGroupChatName] = useState();
@@ -60,6 +60,7 @@ const UpdateGroupChatModal = ({ fetchAgain, setFetchAgain }) => {
       if (data) {
         user2._id === user._id ? setSelectedChat() : setSelectedChat(data);
         toast.success("User removed successfully");
+        fetchMessages()
         setSelectedChat(data);
         setFetchAgain(!fetchAgain);
         setLoading(false);

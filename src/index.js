@@ -4,20 +4,20 @@ import "./index.css";
 import App from "./App";
 import { ChakraProvider } from "@chakra-ui/react";
 import { BrowserRouter } from "react-router-dom";
-import 'react-toastify/dist/ReactToastify.css';
+import "react-toastify/dist/ReactToastify.css";
 import { ToastContainer } from "react-toastify";
 import { AppContextWrapper } from "./Context/AppContext";
 
 const root = ReactDOM.createRoot(document.getElementById("root"));
 root.render(
-  <AppContextWrapper>
-    <BrowserRouter>
+  <BrowserRouter>
+    <AppContextWrapper>
       <ChakraProvider>
         <App />
         <ToastContainer />
       </ChakraProvider>
-    </BrowserRouter>
-  </AppContextWrapper>
+    </AppContextWrapper>
+  </BrowserRouter>
 );
 
 // If you want to start measuring performance in your app, pass a function

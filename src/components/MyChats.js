@@ -78,12 +78,13 @@ const MyChats = ({ fetchAgain }) => {
           </GroupChatModal>
         </Box>
         <Box
-          d="flex"
+          display="flex"
           flexDir="column"
           p={3}
           bg="#F8F8F8"
           w="100%"
           h="100%"
+          mt={3}
           borderRadius="lg"
           overflowY="hidden"
         >
@@ -93,8 +94,8 @@ const MyChats = ({ fetchAgain }) => {
                 <Box
                   onClick={() => setSelectedChat(chat)}
                   cursor="pointer"
-                  bg={selectedChat === chat ? "#38B2AC" : "#E8E8E8"}
-                  color={selectedChat === chat ? "white" : "black"}
+                  bg={selectedChat === chat ? "#eab308" : "#E8E8E8"}
+                  color="black"
                   px={3}
                   py={2}
                   borderRadius="lg"

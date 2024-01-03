@@ -38,6 +38,7 @@ const Login = () => {
         console.log("Something went wrong");
       }
     } catch (error) {
+      toast.error(error.message)
       console.log(error);
     }
   };
