@@ -20,7 +20,7 @@ const MyChats = ({ fetchAgain }) => {
     chats,
     setChats,
   } = useAppContext();
-  console.log("chats", chats);
+  // console.log("chats", chats);
 
   const [loggedUser, setLoggedUser] = useState();
 
